@@ -1,10 +1,12 @@
-<div class="card border-danger mb-3" >
+<detalle-cliente *ngIf="clienteSeleccionado" [cliente]="clienteSeleccionado"></detalle-cliente>
+
+<div class="card border-danger mb-3">
   <div class="card-header">Clientes</div>
   <div class="card-body text-danger">
     <h5 class="card-title"> Listado de Clientes </h5>
 
     <div class="my-2 text-left">
-      <button class="btn btn-rounded btn-primary" type="button" [routerLink] = "['/clientes/form']">Crear Cliente</button>
+      <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">Crear Cliente</button>
     </div>
 
     <div *ngIf="clientes?.length==0" class="alert alert-info">No hay registros en la base de datos.</div>
@@ -12,7 +14,7 @@
     <table class="table table-bordered table-striped" *ngIf="clientes?.length>0">
       <thead>
         <tr>
-          <th>id</th>
+          <th>Perfil</th>
           <th>nombre</th>
           <th>apellido</th>
           <th>email</th>
@@ -23,7 +25,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let cliente of clientes">
-          <td>{{ cliente.id }}</td>
+          <td> <img (click)="abrirModal(cliente)" *ngIf="cliente?.foto"
+            src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}" class="img-thumbnail rounded"
+            style="width:64px; cursor: pointer;">
+
+            <img (click)="abrirModal(cliente)" *ngIf="!cliente?.foto"
+              src="http://localhost:8080/images/no-usuario.png" alt="Sin Foto" class="img-thumbnail rounded"
+              style="width:64px; cursor: pointer;">
+          </td>
           <td>{{ cliente.nombre }}</td>
           <td>{{ cliente.apellido | uppercase }}</td>
           <td>{{ cliente.email }}</td>
@@ -38,7 +47,7 @@
       </tbody>
     </table>
 
-    <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
+    <paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
 
   </div>
 </div>
